@@ -11,6 +11,13 @@ class LayoutView {
         ob_end_clean();
     }
 
+    /**
+     * Show error message to the user
+     * @param $e, the error message
+     */
+    public function showError($e) {
+        echo $e;
+    }
 
     /**
      * This method displays a general view for the web page

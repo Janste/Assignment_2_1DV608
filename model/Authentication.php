@@ -16,11 +16,23 @@ class Authentication {
      * later authenticate user credentials.
      */
     public function __construct() {
-
         $this->usersArr = new UserArray();
-        $this->usersArr->generateArray();
-        $this->users = $this->usersArr->getUsers();
-        
+    }
+
+    /**
+     * This method initializes the rest of the model. It runs methods which later on
+     * connect to the DB and create an array of users. If this fails we get the Error message.
+     * @return true, if everything ok, false otherwise
+     */
+    public function initialize() {
+
+        if($this->usersArr->generateArray()) {
+            $this->users = $this->usersArr->getUsers();
+            return true;
+        } else {
+            $this->outputMsg = $this->usersArr->getErrorMessage();
+            return false;
+        }
     }
 
     /**
@@ -45,7 +57,6 @@ class Authentication {
         } else {
             return false;
         }
-
     }
 
     /**

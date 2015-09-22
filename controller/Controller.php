@@ -14,6 +14,7 @@ class Controller {
     private $authenticate;
     private $messageToUser = '';
 
+    // Constructor
     public function __construct() {
         $this->layoutV = new LayoutView();
         $this->loginV = new LoginView();
@@ -21,7 +22,13 @@ class Controller {
         $this->authenticate = new Authentication();
     }
 
+    // Main method
     public function run() {
+
+        // This method initializes the model.
+        if(!$this->authenticate->initialize()) { // If something went wrong then show the error message
+            $this->layoutV->showError($this->authenticate->getOutputMsg());
+        }
 
         // Check if cookie is set. If yes then user is logged in
         if ($this->loginV->checkCookieSet()) {

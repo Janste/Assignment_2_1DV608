@@ -11,11 +11,10 @@ class DB {
 
     // This is the data which is used to connect to the DB
     private $conn;
-    private $database = '127.0.0.1';
-    private $port = 8889;
-    private $dbName = 'js223fz';
-    private $dbUserName = 'root';
-    private $dbPassword = 'root';
+    private $database = 'localhost';
+    private $dbName = 'jp180794_assignment_2';
+    private $dbUserName = 'jp180794_a2';
+    private $dbPassword = 'JanSte91';
 
     /**
      * Private constructor. It connect to the DB and
@@ -24,17 +23,16 @@ class DB {
     private function __construct() {
 
         // Connect to database
-        $this->conn = new mysqli($this->database, $this->dbUserName, $this->dbPassword, $this->dbName, $this->port);
+        $this->conn = new mysqli($this->database, $this->dbUserName, $this->dbPassword, $this->dbName);
 
-        // If couldn't connect to DB, kill the script
+        // If couldn't connect to the DB, throw an exception
         if ($this->conn->connect_error) {
-            die();
+            throw new \Exception("Problem when connecting to the database. The web page will not work.");
         }
     }
 
     /**
      * A static method which returns the instance of this DB class.
-     * @param nothing
      * @return object of DB class
      */
     public static function getInstance() {
@@ -46,16 +44,16 @@ class DB {
 
     /**
      * Method which returns an array containing rows from the DB
-     * @param nothing
      * @return array containing rows from the DB
+     * @throws Exception, if problems appeared with the database
      */
     public function getAllUsers() {
 
             $sql = "SELECT * FROM users"; // Select all entries
             $result = $this->conn->query($sql); // Prepare for analysis
 
-            if ($result == false) { // Error with the DB. Kill the script
-                die();
+            if ($result == false) { // Error with the DB. Throw an exception.
+                throw new \Exception("Error with the database.");
             }
             // If no error, continue
 
